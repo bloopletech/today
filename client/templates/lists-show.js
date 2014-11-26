@@ -56,14 +56,14 @@ var editList = function(list, template) {
 
 var saveList = function(list, template) {
   Session.set(EDITING_KEY, false);
-  Lists.update(list._id, {$set: {name: template.$('[name=name]').val()}});
+  Lists.update(list._id, { $set: { name: template.$('[name=name]').val() } });
 }
 
 var deleteList = function(list) {
   var message = "Are you sure you want to delete the list " + list.name + "?";
   if (confirm(message)) {
     // we must remove each item individually from the client
-    Todos.find({listId: list._id}).forEach(function(todo) {
+    Todos.find({ listId: list._id }).forEach(function(todo) {
       Todos.remove(todo._id);
     });
     Lists.remove(list._id);
@@ -141,7 +141,7 @@ Template.listsShow.events({
       checked: false,
       createdAt: new Date()
     });
-    Lists.update(this._id, {$inc: {incompleteCount: 1}});
+    Lists.update(this._id, { $inc: { incompleteCount: 1 } });
     $input.val('');
   }
 });
