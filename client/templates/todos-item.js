@@ -1,11 +1,6 @@
-var EDITING_KEY = 'EDITING_TODO_ID';
-
 Template.todosItem.helpers({
   checkedClass: function() {
     return this.checked && 'checked';
-  },
-  editingClass: function() {
-    return Session.equals(EDITING_KEY, this._id) && 'editing';
   }
 });
 
@@ -14,15 +9,6 @@ Template.todosItem.events({
     var checked = $(event.target).is(':checked');
     Todos.update(this._id, {$set: {checked: checked}});
     Lists.update(this.listId, { $inc: { incompleteCount: checked ? -1 : 1 } });
-  },
-
-  'focus input[type=text]': function(event) {
-    Session.set(EDITING_KEY, this._id);
-  },
-
-  'blur input[type=text]': function(event) {
-    if (Session.equals(EDITING_KEY, this._id))
-      Session.set(EDITING_KEY, null);
   },
 
   'keydown input[type=text]': function(event) {

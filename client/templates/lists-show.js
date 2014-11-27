@@ -1,6 +1,3 @@
-var EDITING_KEY = 'editingList';
-Session.setDefault(EDITING_KEY, false);
-
 // Track if this is the first time the list template is rendered
 var firstRender = true;
 var listRenderHold = LaunchScreen.hold();
@@ -33,10 +30,6 @@ Template.listsShow.rendered = function() {
 };
 
 Template.listsShow.helpers({
-  editing: function() {
-    return Session.get(EDITING_KEY);
-  },
-
   todosReady: function() {
     return Router.current().todosHandle.ready();
   },
@@ -45,19 +38,6 @@ Template.listsShow.helpers({
     return Todos.find({ listId: listId }, { sort: { createdAt : 1 } });
   }
 });
-
-var editList = function(list, template) {
-  Session.set(EDITING_KEY, true);
-
-  // force the template to redraw based on the reactive change
-  Tracker.flush();
-  template.$('.js-edit-form input[type=text]').focus();
-};
-
-var saveList = function(list, template) {
-  Session.set(EDITING_KEY, false);
-  Lists.update(list._id, { $set: { name: template.$('[name=name]').val() } });
-}
 
 var deleteList = function(list) {
   var message = "Are you sure you want to delete the list " + list.name + "?";
@@ -76,9 +56,12 @@ var deleteList = function(list) {
 };
 
 Template.listsShow.events({
-  'click .js-cancel': function() {
-    Session.set(EDITING_KEY, false);
-  },
+  // update the text of the item on keypress but throttle the event to ensure
+  // we don't flood the server with updates (handles the event at most once
+  // every 300ms)
+  'keyup input[type=text]': _.throttle(function(event) {
+    Lists.update(this._id, { $set: { text: event.target.value } });
+  }, 300),
 
   'keydown input[type=text]': function(event) {
     // ESC
@@ -86,38 +69,6 @@ Template.listsShow.events({
       event.preventDefault();
       $(event.target).blur();
     }
-  },
-
-  'blur input[type=text]': function(event, template) {
-    // if we are still editing (we haven't just clicked the cancel button)
-    if (Session.get(EDITING_KEY))
-      saveList(this, template);
-  },
-
-  'submit .js-edit-form': function(event, template) {
-    event.preventDefault();
-    saveList(this, template);
-  },
-
-  // handle mousedown otherwise the blur handler above will swallow the click
-  // on iOS, we still require the click event so handle both
-  'mousedown .js-cancel, click .js-cancel': function(event) {
-    event.preventDefault();
-    Session.set(EDITING_KEY, false);
-  },
-
-  'change .list-edit': function(event, template) {
-    if ($(event.target).val() === 'edit') {
-      editList(this, template);
-    } else if ($(event.target).val() === 'delete') {
-      deleteList(this, template);
-    }
-
-    event.target.selectedIndex = 0;
-  },
-
-  'click .js-edit-list': function(event, template) {
-    editList(this, template);
   },
 
   'click .js-delete-list': function(event, template) {
