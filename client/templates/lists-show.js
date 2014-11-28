@@ -1,59 +1,35 @@
-// Track if this is the first time the list template is rendered
-var firstRender = true;
-var listRenderHold = LaunchScreen.hold();
-listFadeInHold = null;
-
-Template.listsShow.rendered = function() {
-  if (firstRender) {
-    // Released in app-body.js
-    listFadeInHold = LaunchScreen.hold();
-
-    // Handle for launch screen defined in app-body.js
-    listRenderHold.release();
-
-    firstRender = false;
-  }
-
-  this.find('.js-title-nav')._uihooks = {
-    insertElement: function(node, next) {
-      $(node)
-        .hide()
-        .insertBefore(next)
-        .fadeIn();
-    },
-    removeElement: function(node) {
-      $(node).fadeOut(function() {
-        this.remove();
-      });
-    }
-  };
+Template.listsShow.created = function() {
+  // subscribe to todos before the page is rendered but don't wait on the
+  // subscription, we'll just render the items as they arrive
+  this.todosHandle = Meteor.subscribe('todos', this.data._id);
 };
 
 Template.listsShow.helpers({
   todosReady: function() {
-    return Router.current().todosHandle.ready();
+    return Template.instance().todosHandle.ready();
   },
 
-  todos: function(listId) {
-    return Todos.find({ listId: listId }, { sort: { createdAt : 1 } });
+  nameClass: function() {
+    var date = moment(this.date);
+    if(date.isSame(moment().startOf('day'))) {
+      return 'today';
+    }
+    else {
+      return 'tomorrow';
+    }
+  },
+
+  name: function(klass) {
+    switch(klass) {
+      case 'today': return 'Today';
+      case 'tomorrow': return 'Tomorrow';
+    }
+  },
+
+  todos: function(list) {
+    return Todos.find({ listId: list._id }, { sort: { createdAt : 1 } });
   }
 });
-
-var deleteList = function(list) {
-  var message = "Are you sure you want to delete the list " + list.name + "?";
-  if (confirm(message)) {
-    // we must remove each item individually from the client
-    Todos.find({ listId: list._id }).forEach(function(todo) {
-      Todos.remove(todo._id);
-    });
-    Lists.remove(list._id);
-
-    Router.go('home');
-    return true;
-  } else {
-    return false;
-  }
-};
 
 Template.listsShow.events({
   // update the text of the item on keypress but throttle the event to ensure
@@ -69,10 +45,6 @@ Template.listsShow.events({
       event.preventDefault();
       $(event.target).blur();
     }
-  },
-
-  'click .js-delete-list': function(event, template) {
-    deleteList(this, template);
   },
 
   'click .js-todo-add': function(event, template) {
@@ -92,7 +64,10 @@ Template.listsShow.events({
       checked: false,
       createdAt: new Date()
     });
-    Lists.update(this._id, { $inc: { incompleteCount: 1 } });
     $input.val('');
-  }
+  },
+
+  'keyup textarea': _.throttle(function(event) {
+    Lists.update(this._id, { $set: { journal: event.target.value } });
+  }, 300)
 });

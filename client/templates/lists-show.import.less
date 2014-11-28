@@ -1,9 +1,48 @@
-.page.lists-show {
-  .content-scrollable {
-    background: @color-empty;
-    top: 5em !important;
+.content-scrollable {
+  display: flex;
+}
+
+.lists .lists-show {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  background: @color-empty;
+  border-right: 1px solid #a0a0a0;
+
+  .js-edit-list {
+    flex: 0 1 60px;
+
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: bold;
+    padding: 1rem;
+
+    &.today {
+      background-color: #4CAF50;
+      color: #ffffff;
+    }
+
+    &.tomorrow {
+      background-color: #03A9F4;
+      color: #ffffff;
+    }
+  }
+
+  .list-items {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .list-journal {
+    flex: 0 1 10em;
+    padding: 0.75rem;
+    border-top: 1px solid #e5e5e5;
   }
 }
+
+
 
 .todo-new {
   flex: 1;

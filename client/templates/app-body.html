@@ -22,23 +22,6 @@
           <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a>
         </div>
       {{/if}}
-
-      <div class="list-todos">
-        <a class="js-new-list link-list-new"><span class="icon-plus"></span>New List</a>
-
-        {{#each lists}}
-          <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
-            {{#if userId}}
-              <span class="icon-lock"></span>
-            {{/if}}
-            {{#if incompleteCount}}
-              <span class="count-list">{{incompleteCount}}</span>
-            {{/if}}
-            {{name}}
-          </a>
-        {{/each}}
-
-      </div>
     </section>
 
     {{#unless connected}}
@@ -56,9 +39,7 @@
     <div class="content-overlay"></div>
 
     <div id="content-container">
-      {{#each thisArray}}
-        {{> yield}}
-      {{/each}}
+      {{> yield}}
     </div>
   </div>
 </template>
