@@ -1,7 +1,7 @@
 <template name="listsShow">
   <div class="lists-show">
     <h1 class="js-edit-list title-page {{nameClass}}">
-      {{name nameClass}}
+      {{name}}
     </h1>
 
     <div class="list-items">
@@ -16,11 +16,11 @@
       {{/if}}
       <div class="list-item">
         <form class="js-todo-new todo-new">
-          <input type="text" placeholder="Type to add new tasks">
+          <input type="text" placeholder="Type to add new tasks" {{fieldReadonly}}>
         </form>
       </div>
     </div>
 
-    <textarea class="list-journal" placeholder="Your Journal">{{journal}}</textarea>
+    <textarea class="list-journal" placeholder="Your Journal" {{fieldReadonly}}>{{journal}}</textarea>
   </div>
 </template>

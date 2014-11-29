@@ -1,11 +1,11 @@
 <template name="todosItem">
   <div class="list-item {{checkedClass}} editing">
     <label class="checkbox">
-      <input type="checkbox" checked="{{checked}}" name="checked">
+      <input type="checkbox" checked="{{checked}}" name="checked" {{fieldDisabled}}>
       <span class="checkbox-custom"></span>
     </label>
 
-    <input type="text" value="{{text}}" placeholder="Task name">
-    <a class="js-delete-item delete-item" href="#"><span class="icon-trash"></span></a>
+    <input type="text" value="{{text}}" placeholder="Task name" {{fieldReadonly}}>
+    <a class="js-delete-item delete-item" href="#" {{fieldReadonly}}><span class="icon-trash"></span></a>
   </div>
 </template>

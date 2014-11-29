@@ -1,55 +1,76 @@
-.content-scrollable {
-  display: flex;
-}
-
-.lists .lists-show {
-  flex: 1;
-
+.page.lists {
   display: flex;
   flex-direction: column;
 
-  background: @color-empty;
-  border-right: 1px solid #a0a0a0;
-
-  .js-edit-list {
-    flex: 0 1 60px;
-
-    font-size: 20px;
-    line-height: 1.4;
-    font-weight: bold;
-    padding: 1rem;
-
-    &.today {
-      background-color: #4CAF50;
-      color: #ffffff;
-    }
-
-    &.tomorrow {
-      background-color: #03A9F4;
-      color: #ffffff;
-    }
+  @media screen and (min-width: 40em) {
+    flex-direction: row;
   }
 
-  .list-items {
+  .lists-show {
     flex: 1;
-    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    background: @color-empty;
+
+    box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.25);
+
+    h1 {
+      flex: 0 1 60px;
+
+      font-size: 20px;
+      line-height: 1.4;
+      font-weight: bold;
+      padding: 1rem;
+
+      &.yesterday {
+        background-color: #9E9E9E;
+      }
+
+      &.today {
+        background-color: @color-primary;
+        color: #ffffff;
+      }
+
+      &.tomorrow {
+        background-color: #03A9F4;
+        color: #ffffff;
+      }
+    }
+
+    .list-items {
+      flex: 1;
+      overflow-y: auto;
+
+      .todo-new {
+        flex: 1;
+        display: flex;
+      }
+
+      .todo-new input[type="text"] {
+        flex: 1;
+        padding-left: 44px;
+      }
+    }
+
+    .list-journal {
+      flex: 0.4 1;
+      max-height: 10em;
+
+      padding: 0.75rem;
+      border-top: 1px solid #e5e5e5;
+    }
   }
 
-  .list-journal {
-    flex: 0 1 10em;
-    padding: 0.75rem;
-    border-top: 1px solid #e5e5e5;
+  .lists-show:nth-child(1) {
+    z-index: 500;
   }
-}
+  .lists-show:nth-child(2) {
+    z-index: 400;
+  }
+  .lists-show:nth-child(3) {
+    z-index: 300;
+  }
 
-
-
-.todo-new {
-  flex: 1;
-  display: flex;
-}
-
-.todo-new input[type="text"] {
-  flex: 1;
-  padding-left: 44px;
 }

@@ -9,23 +9,6 @@ Template.listsShow.helpers({
     return Template.instance().todosHandle.ready();
   },
 
-  nameClass: function() {
-    var date = moment(this.date);
-    if(date.isSame(moment().startOf('day'))) {
-      return 'today';
-    }
-    else {
-      return 'tomorrow';
-    }
-  },
-
-  name: function(klass) {
-    switch(klass) {
-      case 'today': return 'Today';
-      case 'tomorrow': return 'Tomorrow';
-    }
-  },
-
   todos: function(list) {
     return Todos.find({ listId: list._id }, { sort: { createdAt : 1 } });
   }

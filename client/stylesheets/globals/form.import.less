@@ -5,7 +5,6 @@ input[type="password"],
 textarea {
   // Sizing
   padding: .75rem 0; //total height ~48
-  line-height: 1.5rem !important;
 
   // Style
   .placeholder(@color-complementary);
@@ -16,11 +15,6 @@ textarea {
   outline: none;
 
   &[disabled] { opacity: .5; }
-}
-
-// Remove chrome/saf autofill yellow background
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px @color-empty inset;
 }
 
 // Custom checkbox
@@ -46,7 +40,7 @@ input:-webkit-autofill {
 
     &:checked + span:before {
       box-shadow: none;
-      color: @color-medium-rare;
+      color: @color-accent;
 
       // Icon family from icon.lessimport
       font-family: 'todos';

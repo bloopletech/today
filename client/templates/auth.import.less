@@ -1,7 +1,7 @@
 .page.auth {
   text-align: center;
 
-  .content-scrollable { background: @color-tertiary; }
+  background: #C8E6C9;
 
   .wrapper-auth {
     padding-top: 4em;
@@ -14,13 +14,7 @@
 
     .title-auth {
       .font-l1;
-      color: @color-ancillary;
-      margin-bottom: .75rem;
-    }
-
-    .subtitle-auth {
-      color: @color-medium-well;
-      margin: 0 15% 3rem;
+      margin-bottom: 2rem;
     }
 
     form {
@@ -30,6 +24,12 @@
       }
 
       .btn-primary {
+        background-color: @color-accent;
+        color: #ffffff;
+        text-transform: uppercase;
+        padding: 15px;
+        border: none;
+
         margin: 1em 5% 0;
         width: 90%;
 
@@ -55,7 +55,6 @@
 
   .link-auth-alt {
     .position(absolute, auto, 0, 1em, 0);
-    color: @color-medium;
     display: inline-block;
 
     @media screen and (min-width: 40em) {

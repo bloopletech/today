@@ -39,9 +39,12 @@ Template.lists.helpers({
     var today = moment().startOf('day');
     var listToday = findOrCreateList(today.toDate());
 
-    var tomorrow = today.add(1, 'days');
+    var yesterday = today.clone().subtract(1, 'days');
+    var listYesterday = findOrCreateList(yesterday.toDate());
+
+    var tomorrow = today.clone().add(1, 'days');
     var listTomorrow = findOrCreateList(tomorrow.toDate());
 
-    return [listToday, listTomorrow];
+    return [listYesterday, listToday, listTomorrow];
   }
 })

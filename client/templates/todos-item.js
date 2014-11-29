@@ -27,7 +27,8 @@ Template.todosItem.events({
 
   // handle mousedown otherwise the blur handler above will swallow the click
   // on iOS, we still require the click event so handle both
-  'mousedown .js-delete-item, click .js-delete-item': function() {
+  'mousedown .js-delete-item, click .js-delete-item': function(event) {
+    if($(event.target).parents('a').attr('readonly')) return;
     Todos.remove(this._id);
   }
 });

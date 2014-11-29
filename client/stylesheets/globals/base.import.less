@@ -59,15 +59,24 @@ h6 {
   color: @color-medium;
 }
 
-sub,
-sup {
-  font-size: .8em;
+html, body {
+  height: 100%;
 }
 
-sub {
-  bottom: -.2em;
+body {
+  display: flex;
+  flex-direction: column;
 }
 
-sup {
-  top: -.2em;
+.page {
+  flex: 1;
+}
+
+#menu {
+  flex: 0 1 44px;
+  background-color: #424242;
+  color: rgba(255, 255, 255, 0.87);
+  padding: 10px;
+
+  text-align: right;
 }
